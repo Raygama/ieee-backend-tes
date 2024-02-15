@@ -1,0 +1,312 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "paths": {
+        "/file": {
+            "post": {
+                "description": "Uploads a single file and saves its metadata to the database",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Upload a single file",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.File"
+                        }
+                    }
+                }
+            }
+        },
+        "/file/{uuid}": {
+            "get": {
+                "description": "Retrieves a file from the server by its unique identifier",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Download a file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File UUID",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a file from the server and its metadata from the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Delete a file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File UUID",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files": {
+            "post": {
+                "description": "Uploads multiple files and saves their metadata to the database",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Upload multiple files",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Files to upload",
+                        "name": "files",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.File"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/papers": {
+            "get": {
+                "description": "Retrieves all papers from the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Papers"
+                ],
+                "summary": "Get All Papers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Paper"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Uploads a paper along with its file and saves them to the database.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Papers"
+                ],
+                "summary": "Upload Paper with File",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Judul paper",
+                        "name": "judul",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Deskripsi paper",
+                        "name": "deskripsi",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Abstrak paper",
+                        "name": "abstrak",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Link paper",
+                        "name": "link",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "File paper",
+                        "name": "file_paper",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Author paper",
+                        "name": "author",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tanggal terbit paper",
+                        "name": "tanggal_terbit",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Paper"
+                        }
+                    }
+                }
+            }
+        },
+        "/papers/file/:id": {
+            "get": {
+                "description": "Retrieves the file of a paper by its ID.",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Papers"
+                ],
+                "summary": "Get Paper File",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Paper ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.File": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Paper": {
+            "type": "object",
+            "properties": {
+                "abstrak": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "deskripsi": {
+                    "type": "string"
+                },
+                "file_paper": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "judul": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "tanggal_terbit": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
